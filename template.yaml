@@ -37,15 +37,15 @@ Resources:
             Method: post
 
   Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  OTEBApi:
-    Description: "API Gateway endpoint URL for Prod stage for Welcome Function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
-  WelcomeFunction:
-    Description: "Welcome Lambda Function ARN"
-    Value: !GetAtt WelcomeFunction.Arn
-  WelcomeFunctionIamRole:
-    Description: "Implicit IAM Role created for Welcome Function"
-    Value: !GetAtt WelcomeFunctionRole.Arn
+    # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+    # Find out more about other implicit resources you can reference within SAM
+    # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+    OTEBApi:
+      Description: "API Gateway endpoint URL for Prod stage for Welcome Function"
+      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    WelcomeFunction:
+      Description: "Welcome Lambda Function ARN"
+      Value: !GetAtt WelcomeFunction.Arn
+    WelcomeFunctionIamRole:
+      Description: "Implicit IAM Role created for Welcome Function"
+      Value: !GetAtt WelcomeFunctionRole.Arn
