@@ -7,7 +7,7 @@ var event, context;
 
 describe('Tests index', function () {
     it('verifies successful response', async () => {
-        const result = await app.lambdaHandler(event, context)
+        const result = await app.handler(event, context)
 
         expect(result).to.be.an('object');
         expect(result.statusCode).to.equal(200);
@@ -17,6 +17,5 @@ describe('Tests index', function () {
 
         expect(response).to.be.an('object');
         expect(response.message).to.be.equal("OTEB API Serving ...");
-        // expect(response.location).to.be.an("string");
     });
 });
