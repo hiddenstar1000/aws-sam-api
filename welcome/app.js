@@ -1,5 +1,5 @@
-// const axios = require('axios')
-// const url = 'http://checkip.amazonaws.com/';
+const axios = require('axios');
+const url = 'http://checkip.amazonaws.com/';
 let response;
 
 /**
@@ -14,9 +14,9 @@ let response;
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  * 
  */
-exports.handler = async (event, context) => {
+exports.lambdaHandler = async (event, context) => {
     try {
-        // const ret = await axios(url);
+        const ret = await axios(url);
         response = {
             headers: {
                 "Access-Control-Allow-Headers" : "Content-Type",
@@ -26,7 +26,7 @@ exports.handler = async (event, context) => {
             statusCode: 200,
             body: JSON.stringify({
                 message: 'OTEB API Serving ...',
-                // location: ret.data.trim()
+                location: ret.data.trim()
             })
         }
     } catch (err) {

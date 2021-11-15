@@ -14,8 +14,8 @@ The code for this application will differ based on the runtime, but the path to 
 
 AWS Toolkit For Visual Studio Code supports local debugging for serverless applications through VS Code's debugger. Since this application was created by the AWS Toolkit, launch configurations for all included handlers have been generated and can be found in the menu next to the Run button:
 
-* lambda-nodejs14.x:HelloWorldFunction (nodejs14.x)
-* API lambda-nodejs14.x:HelloWorldFunction (nodejs14.x)
+- lambda-nodejs14.x:HelloWorldFunction (nodejs14.x)
+- API lambda-nodejs14.x:HelloWorldFunction (nodejs14.x)
 
 You can debug the Lambda handlers locally by adding a breakpoint to the source file, then running the launch configuration. This works by using Docker on your local machine.
 
@@ -29,7 +29,7 @@ AWS Lambda functions not defined in the [`template.yaml`](./template.yaml) file 
 
 <br />
 
-You can deploy a serverless application by invoking the `AWS: Deploy SAM application` command through the Command Palette or by right-clicking the Lambda node in the AWS Explorer and entering the deployment region, a valid S3 bucket from the region, and the name of a CloudFormation stack to deploy to. You can monitor your deployment's progress through the **AWS Toolkit\*\* Output Channel.
+You can deploy a serverless application by invoking the `AWS: Deploy SAM application` command through the Command Palette or by right-clicking the Lambda node in the AWS Explorer and entering the deployment region, a valid S3 bucket from the region, and the name of a CloudFormation stack to deploy to. You can monitor your deployment's progress through the \*\*AWS Toolkit\*\* Output Channel.
 
 <br />
 

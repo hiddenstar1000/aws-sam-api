@@ -16,7 +16,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: welcome/
-      Handler: app.handler
+      Handler: app.lambdaHandler
       Events:
         Welcome:
           Type: Api
@@ -28,7 +28,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: user/
-      Handler: create-user.handler
+      Handler: create-user.lambdaHandler
       Events:
         Welcome:
           Type: Api
