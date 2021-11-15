@@ -1,5 +1,3 @@
-// const axios = require('axios')
-// const url = 'http://checkip.amazonaws.com/';
 let response;
 
 /**
@@ -16,17 +14,15 @@ let response;
  */
 exports.lambdaHandler = async (event, context) => {
     try {
-        // const ret = await axios(url);
         response = {
             headers: {
                 "Access-Control-Allow-Headers" : "Content-Type",
-                "Access-Control-Allow-Origin": "*", // Allow from anywhere 
-                "Access-Control-Allow-Methods": "GET" // Allow only GET request 
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET"
             },
             statusCode: 200,
             body: JSON.stringify({
-                message: 'OTEB API Serving ...',
-                // location: ret.data.trim()
+                message: 'OTEB API Serving ...'
             })
         }
     } catch (err) {
