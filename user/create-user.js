@@ -1,4 +1,6 @@
 const aws = require('aws-sdk');
+const uuid = require('uuid');
+
 aws.config.update({region: 'us-east-1'});
 const dynamoDb = new aws.DynamoDB.DocumentClient();
 const tableName = process.env.TABLE_NAME;
@@ -19,8 +21,11 @@ let response;
  */
 exports.lambdaHandler = async (event, context) => {
     try {
+        const userId = uuidv4();
         const {firstName, lastName, email} = JSON.parse(event.body);
+        
         const item = {
+            userId: userId,
             firstName: firstName,
             lastName: lastName,
             email: email

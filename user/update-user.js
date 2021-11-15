@@ -1,4 +1,5 @@
 const aws = require('aws-sdk');
+
 aws.config.update({region: 'us-east-1'});
 const dynamoDb = new aws.DynamoDB.DocumentClient();
 const tableName = process.env.TABLE_NAME;
@@ -29,6 +30,8 @@ exports.lambdaHandler = async (event, context) => {
         }).promise();
 
         if (data.Item) {
+            const {firstName, lastName, email} = JSON.parse(event.body);
+            
             const item = {
                 userId: userId,
                 firstName: firstName,
