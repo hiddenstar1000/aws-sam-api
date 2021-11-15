@@ -1,3 +1,8 @@
+const aws = require('aws-sdk');
+aws.config.update({region: 'us-east-1'});
+const dynamoDb = new aws.DynamoDB.DocumentClient();
+const tableName = process.env.TABLE_NAME;
+
 let response;
 
 /**
@@ -13,21 +18,22 @@ let response;
  * 
  */
 exports.lambdaHandler = async (event, context) => {
-    try {
+    const data = await dynamoDb.get({
+        TableName: tableName
+    }).promise();
+
+    if (data.Item) {
         response = {
             headers: {
                 "Access-Control-Allow-Headers" : "Content-Type",
-                "Access-Control-Allow-Origin": "*", 
+                "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "GET"
             },
             statusCode: 200,
-            body: JSON.stringify({
-                message: 'OTEB API Serving ...'
-            })
+            body: JSON.stringify(data.Item)
         }
-    } catch (err) {
-        console.log(err);
-        return err;
+    } else {
+        throw new Error('User not found');
     }
 
     return response;

@@ -1,3 +1,8 @@
+const aws = require('aws-sdk');
+aws.config.update({region: 'us-east-1'});
+const dynamoDb = new aws.DynamoDB.DocumentClient();
+const tableName = process.env.TABLE_NAME;
+
 let response;
 
 /**
@@ -14,16 +19,26 @@ let response;
  */
 exports.lambdaHandler = async (event, context) => {
     try {
+        const {firstName, lastName, email} = JSON.parse(event.body);
+        const item = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email
+        }
+
+        const data = await dynamoDb.put({
+            TableName: tableName,
+            Item: item
+        }).promise();
+
         response = {
             headers: {
                 "Access-Control-Allow-Headers" : "Content-Type",
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST, OPTIONS"
+                "Access-Control-Allow-Methods": "POST"
             },
-            statusCode: 200,
-            body: JSON.stringify({
-                message: 'OTEB API Serving ...'
-            })
+            statusCode: 201,
+            body: JSON.stringify(data.Item)
         }
     } catch (err) {
         console.log(err);

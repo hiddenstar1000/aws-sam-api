@@ -5,16 +5,29 @@ Description: OTEB API
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 5
     MemorySize: 128
     Runtime: nodejs14.x
+    Environment:
+      Variables:
+        TABLE_NAME: !Ref Table
     Architectures:
       - x86_64
 
 Resources:
+  Table:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: userId
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
   WelcomeFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
+      Timeout: 3
       CodeUri: welcome/
       Handler: app.lambdaHandler
       Events:
@@ -29,12 +42,52 @@ Resources:
     Properties:
       CodeUri: user/
       Handler: create-user.lambdaHandler
+      Policies: AmazonDynamoDBFullAccess
       Events:
         CreateUser:
           Type: Api
           Properties:
             Path: /user
             Method: post
+
+  GetUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: user/
+      Handler: create-user.lambdaHandler
+      Policies: AmazonDynamoDBReadOnlyAccess
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /user/{id}
+            Method: get
+
+  UpdateUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: user/{id}
+      Handler: update-user.lambdaHandler
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /user/{id}
+            Method: put
+
+  DeleteUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: user/{id}
+      Handler: delete-user.lambdaHandler
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /user/{id}
+            Method: delete
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
