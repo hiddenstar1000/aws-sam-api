@@ -34,5 +34,5 @@ exports.handler = async (event, context) => {
         return err;
     }
 
-    return response
+    return response;
 };
