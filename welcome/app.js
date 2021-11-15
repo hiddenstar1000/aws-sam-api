@@ -25,7 +25,7 @@ exports.lambdaHandler = async (event, context) => {
             },
             statusCode: 200,
             body: JSON.stringify({
-                message: 'hello world',
+                message: 'OTEB API Serving ...',
                 // location: ret.data.trim()
             })
         }
