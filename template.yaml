@@ -64,6 +64,19 @@ Resources:
             Path: /user/{id}
             Method: get
 
+  GetUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: user/
+      Handler: get-users.lambdaHandler
+      Policies: AmazonDynamoDBReadOnlyAccess
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /user
+            Method: get
+
   UpdateUserFunction:
     Type: AWS::Serverless::Function
     Properties:
