@@ -25,14 +25,14 @@ exports.lambdaHandler = async (event, context) => {
             "Access-Control-Allow-Methods": "GET, OPTIONS"
         }
 
-        const data = await dynamoDb.batchGet({
+        const data = await dynamoDb.query({
             TableName: tableName
         }).promise();
 
         response = {
             headers: headers,
             statusCode: 200,
-            body: JSON.stringify(data.ItemList)
+            body: JSON.stringify(data.Items)
         }
     } catch (error) {
         console.log(error);
