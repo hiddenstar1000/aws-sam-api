@@ -19,27 +19,25 @@ let response;
  */
 exports.lambdaHandler = async (event, context) => {
     try {
+        const headers = {
+            "Access-Control-Allow-Headers" : "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, OPTIONS"
+        }
+
         const data = await dynamoDb.batchGet({
             TableName: tableName
         }).promise();
 
         response = {
-            headers: {
-                "Access-Control-Allow-Headers" : "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET"
-            },
+            headers: headers,
             statusCode: 200,
             body: JSON.stringify(data.ItemList)
         }
     } catch (error) {
         console.log(error);
         response = {
-            headers: {
-                "Access-Control-Allow-Headers" : "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET"
-            },
+            headers: headers,
             statusCode: 500,
             body: JSON.stringify({message: 'Internal Server Error'})
         }

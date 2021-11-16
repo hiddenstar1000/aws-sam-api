@@ -15,14 +15,16 @@ let response;
  * 
  */
 exports.lambdaHandler = async (event, context) => {
+    const headers = {
+        "Access-Control-Allow-Headers" : "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS"
+    }
+
     try {
         const ret = await axios(url);
         response = {
-            headers: {
-                "Access-Control-Allow-Headers" : "*",
-                "Access-Control-Allow-Origin": "*", // Allow from anywhere 
-                "Access-Control-Allow-Methods": "GET" // Allow only GET request 
-            },
+            headers: headers,
             statusCode: 200,
             body: JSON.stringify({
                 message: 'OTEB API Serving ...',

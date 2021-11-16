@@ -19,6 +19,12 @@ let response;
  * 
  */
 exports.lambdaHandler = async (event, context) => {
+    const headers = {
+        "Access-Control-Allow-Headers" : "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "PUT, OPTIONS"
+    }
+
     try {
         const userId = event.pathParameters.id;
 
@@ -45,21 +51,13 @@ exports.lambdaHandler = async (event, context) => {
             }).promise();
 
             response = {
-                headers: {
-                    "Access-Control-Allow-Headers" : "*",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "PUT"
-                },
+                headers: headers,
                 statusCode: 200,
                 body: JSON.stringify({message: 'User updated successfully'})
             }
         } else {
             response = {
-                headers: {
-                    "Access-Control-Allow-Headers" : "*",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "PUT"
-                },
+                headers: headers,
                 statusCode: 404,
                 body: JSON.stringify({message: 'User not found'})
             }
@@ -67,11 +65,7 @@ exports.lambdaHandler = async (event, context) => {
     } catch (error) {
         console.log(error);
         response = {
-            headers: {
-                "Access-Control-Allow-Headers" : "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "PUT"
-            },
+            headers: headers,
             statusCode: 500,
             body: JSON.stringify({message: 'Internal Server Error'})
         }

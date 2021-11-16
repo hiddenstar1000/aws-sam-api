@@ -20,6 +20,12 @@ let response;
  * 
  */
 exports.lambdaHandler = async (event, context) => {
+    const headers = {
+        "Access-Control-Allow-Headers" : "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS"
+    }
+
     try {
         const userId = uuidv4();
         const {firstName, lastName, email} = JSON.parse(event.body);
@@ -37,22 +43,14 @@ exports.lambdaHandler = async (event, context) => {
         }).promise();
 
         response = {
-            headers: {
-                "Access-Control-Allow-Headers" : "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST"
-            },
+            headers: headers,
             statusCode: 201,
             body: JSON.stringify({message: 'User created successfully'})
         }
     } catch (error) {
         console.log(error);
         response = {
-            headers: {
-                "Access-Control-Allow-Headers" : "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST"
-            },
+            headers: headers,
             statusCode: 500,
             body: JSON.stringify({message: 'Internal Server Error'})
         }
