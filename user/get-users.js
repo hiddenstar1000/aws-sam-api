@@ -18,22 +18,15 @@ let response;
  * 
  */
 exports.lambdaHandler = async (event, context) => {
-    try {
-        const headers = {
-            "Access-Control-Allow-Headers" : "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, OPTIONS"
-        }
+    const headers = {
+        "Access-Control-Allow-Headers" : "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, OPTIONS"
+    }
 
-        const data = await dynamoDb.query({
-            TableName: tableName,
-            KeyConditionExpression: "#ui != :userId",
-            ExpressionAttributeNames:{
-                "#ui": "userId"
-            },
-            ExpressionAttributeValues: {
-                ":userId": ""
-            }
+    try {
+        const data = await dynamoDb.scan({
+            TableName: tableName
         }).promise();
 
         response = {
