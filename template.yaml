@@ -55,7 +55,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: user/
-      Handler: create-user.lambdaHandler
+      Handler: get-user.lambdaHandler
       Policies: AmazonDynamoDBReadOnlyAccess
       Events:
         CreateUser:
