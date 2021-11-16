@@ -50,10 +50,17 @@ exports.lambdaHandler = async (event, context) => {
                 body: JSON.stringify({message: 'User not found'})
             }
         }
-    } catch (err) {
-        console.log(err);
-        return err;
+    } catch (error) {
+        console.log(error);
+        response = {
+            headers: {
+                "Access-Control-Allow-Headers" : "*",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET"
+            },
+            statusCode: 500,
+            body: JSON.stringify({message: 'Internal Server Error'})
+        }
     }
-
     return response;
 };

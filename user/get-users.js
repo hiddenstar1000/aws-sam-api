@@ -18,11 +18,11 @@ let response;
  * 
  */
 exports.lambdaHandler = async (event, context) => {
-    const data = await dynamoDb.get({
-        TableName: tableName
-    }).promise();
+    try {
+        const data = await dynamoDb.batchGet({
+            TableName: tableName
+        }).promise();
 
-    if (data.Item) {
         response = {
             headers: {
                 "Access-Control-Allow-Headers" : "*",
@@ -30,10 +30,19 @@ exports.lambdaHandler = async (event, context) => {
                 "Access-Control-Allow-Methods": "GET"
             },
             statusCode: 200,
-            body: JSON.stringify(data.Item)
+            body: JSON.stringify(data.ItemList)
         }
-    } else {
-        throw new Error('User not found');
+    } catch (error) {
+        console.log(error);
+        response = {
+            headers: {
+                "Access-Control-Allow-Headers" : "*",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET"
+            },
+            statusCode: 500,
+            body: JSON.stringify({message: 'Internal Server Error'})
+        }
     }
 
     return response;
