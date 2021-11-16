@@ -43,7 +43,7 @@ exports.lambdaHandler = async (event, context) => {
                 "Access-Control-Allow-Methods": "POST"
             },
             statusCode: 201,
-            body: JSON.stringify(data.Item)
+            body: JSON.stringify({message: 'User created successfully'})
         }
     } catch (err) {
         console.log(err);
