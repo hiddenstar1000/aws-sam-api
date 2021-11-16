@@ -26,7 +26,14 @@ exports.lambdaHandler = async (event, context) => {
         }
 
         const data = await dynamoDb.query({
-            TableName: tableName
+            TableName: tableName,
+            KeyConditionExpression: "#ui != :userId",
+            ExpressionAttributeNames:{
+                "#ui": "userId"
+            },
+            ExpressionAttributeValues: {
+                ":userId": ""
+            }
         }).promise();
 
         response = {
