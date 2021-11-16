@@ -58,7 +58,7 @@ Resources:
       Handler: get-user.lambdaHandler
       Policies: AmazonDynamoDBReadOnlyAccess
       Events:
-        CreateUser:
+        GetUser:
           Type: Api
           Properties:
             Path: /user/{id}
@@ -71,7 +71,7 @@ Resources:
       Handler: get-users.lambdaHandler
       Policies: AmazonDynamoDBReadOnlyAccess
       Events:
-        CreateUser:
+        GetUsers:
           Type: Api
           Properties:
             Path: /user
@@ -84,7 +84,7 @@ Resources:
       Handler: update-user.lambdaHandler
       Policies: AmazonDynamoDBFullAccess
       Events:
-        CreateUser:
+        UpdateUser:
           Type: Api
           Properties:
             Path: /user/{id}
@@ -97,7 +97,7 @@ Resources:
       Handler: delete-user.lambdaHandler
       Policies: AmazonDynamoDBFullAccess
       Events:
-        CreateUser:
+        DeleteUser:
           Type: Api
           Properties:
             Path: /user/{id}
