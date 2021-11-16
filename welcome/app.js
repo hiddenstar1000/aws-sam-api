@@ -19,7 +19,7 @@ exports.lambdaHandler = async (event, context) => {
         const ret = await axios(url);
         response = {
             headers: {
-                "Access-Control-Allow-Headers" : "Content-Type",
+                "Access-Control-Allow-Headers" : "*",
                 "Access-Control-Allow-Origin": "*", // Allow from anywhere 
                 "Access-Control-Allow-Methods": "GET" // Allow only GET request 
             },

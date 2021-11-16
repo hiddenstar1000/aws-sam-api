@@ -39,7 +39,7 @@ exports.lambdaHandler = async (event, context) => {
 
             response = {
                 headers: {
-                    "Access-Control-Allow-Headers" : "Content-Type",
+                    "Access-Control-Allow-Headers" : "*",
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Methods": "DELETE"
                 },
