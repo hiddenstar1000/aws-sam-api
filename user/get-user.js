@@ -40,7 +40,15 @@ exports.lambdaHandler = async (event, context) => {
                 body: JSON.stringify(data.Item)
             }
         } else {
-            throw new Error('User not found');
+            response = {
+                headers: {
+                    "Access-Control-Allow-Headers" : "*",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET"
+                },
+                statusCode: 404,
+                body: JSON.stringify({message: 'User not found'})
+            }
         }
     } catch (err) {
         console.log(err);
