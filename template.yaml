@@ -13,6 +13,22 @@ Globals:
         TABLE_NAME: !Ref Table
     Architectures:
       - x86_64
+    Layers:
+      # Our own layer that we are going to build
+      - !Ref RuntimeDependenciesLayer
+      # At the same time we can also reference third-party layers
+      - !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:464622532012:layer:Datadog-Node14-x:48"
+
+  RuntimeDependenciesLayer:
+    Type: AWS::Serverless::LayerVersion
+    Metadata:
+      BuildMethod: makefile # This does the trick
+    Properties:
+      Description: Runtime dependencies for Lambdas
+      ContentUri: ./
+      CompatibleRuntimes:
+        - nodejs14.x
+      RetentionPolicy: Retain
 
 Resources:
   Table:
@@ -29,7 +45,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       Timeout: 3
-      CodeUri: welcome/
+      CodeUri: dist/welcome/
       Handler: app.lambdaHandler
       Events:
         Welcome:
@@ -41,7 +57,7 @@ Resources:
   CreateUserFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: user/
+      CodeUri: dist/user/
       Handler: create-user.lambdaHandler
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -54,7 +70,7 @@ Resources:
   GetUserFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: user/
+      CodeUri: dist/user/
       Handler: get-user.lambdaHandler
       Policies: AmazonDynamoDBReadOnlyAccess
       Events:
@@ -67,7 +83,7 @@ Resources:
   GetUsersFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: user/
+      CodeUri: dist/user/
       Handler: get-users.lambdaHandler
       Policies: AmazonDynamoDBReadOnlyAccess
       Events:
@@ -80,7 +96,7 @@ Resources:
   UpdateUserFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: user/
+      CodeUri: dist/user/
       Handler: update-user.lambdaHandler
       Policies: AmazonDynamoDBFullAccess
       Events:
@@ -93,7 +109,7 @@ Resources:
   DeleteUserFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: user/
+      CodeUri: dist/user/
       Handler: delete-user.lambdaHandler
       Policies: AmazonDynamoDBFullAccess
       Events:
