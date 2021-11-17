@@ -132,3 +132,4 @@ Next, you can use AWS Serverless Application Repository to deploy ready to use A
 npm run watch
 
 Reference: https://evilmartians.com/chronicles/serverless-typescript-a-complete-setup-for-aws-sam-lambda
+Reference Repo: https://github.com/Envek/aws-sam-typescript-layers-example
