@@ -18,6 +18,5 @@ describe("Tests welcome", function () {
 
     expect(response).to.be.an("object");
     expect(response.message).to.be.equal("OTEB API Serving ...");
-    expect(response.location).to.be.an("string");
   });
 });

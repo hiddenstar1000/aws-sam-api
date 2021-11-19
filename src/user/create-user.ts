@@ -1,10 +1,14 @@
 import "source-map-support/register";
-const aws = require("aws-sdk");
-const { v4: uuidv4 } = require("uuid");
+import * as aws from "aws-sdk";
+import {
+  APIGatewayProxyEvent,
+  APIGatewayEventRequestContext,
+} from "aws-lambda";
+import { v4 as uuidv4 } from "uuid";
 
 aws.config.update({ region: "us-east-1" });
 const dynamoDb = new aws.DynamoDB.DocumentClient();
-const tableName = process.env.TABLE_NAME;
+const tableName = process.env.TABLE_NAME ? process.env.TABLE_NAME : "";
 
 let response;
 
@@ -20,7 +24,10 @@ let response;
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  *
  */
-exports.lambdaHandler = async (event, context) => {
+export const lambdaHandler = async (
+  event: APIGatewayProxyEvent,
+  context: APIGatewayEventRequestContext
+) => {
   const headers = {
     "Access-Control-Allow-Headers":
       "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
@@ -30,7 +37,7 @@ exports.lambdaHandler = async (event, context) => {
 
   try {
     const userId = uuidv4();
-    const { firstName, lastName, email } = JSON.parse(event.body);
+    const { firstName, lastName, email } = JSON.parse(event.body as string);
 
     const item = {
       userId: userId,

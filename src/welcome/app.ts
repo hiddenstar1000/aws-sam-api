@@ -1,5 +1,8 @@
 import "source-map-support/register";
-const axios = require("axios");
+import {
+  APIGatewayProxyEvent,
+  APIGatewayEventRequestContext,
+} from "aws-lambda";
 const url = "http://checkip.amazonaws.com/";
 let response;
 
@@ -15,7 +18,10 @@ let response;
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  *
  */
-exports.lambdaHandler = async (event, context) => {
+export const lambdaHandler = async (
+  event: APIGatewayProxyEvent,
+  context: APIGatewayEventRequestContext
+) => {
   const headers = {
     "Access-Control-Allow-Headers":
       "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
@@ -24,13 +30,11 @@ exports.lambdaHandler = async (event, context) => {
   };
 
   try {
-    const ret = await axios(url);
     response = {
       headers: headers,
       statusCode: 200,
       body: JSON.stringify({
         message: "OTEB API Serving ...",
-        location: ret.data.trim(),
       }),
     };
   } catch (err) {
