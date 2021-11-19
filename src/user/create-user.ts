@@ -1,4 +1,4 @@
-import "source-map-support/register";
+// import "source-map-support/register";
 import * as aws from "aws-sdk";
 import {
   APIGatewayProxyEvent,
