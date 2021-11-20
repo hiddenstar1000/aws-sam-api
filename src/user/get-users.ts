@@ -1,13 +1,9 @@
 import "source-map-support/register";
-import * as aws from "aws-sdk";
 import {
   APIGatewayProxyEvent,
   APIGatewayEventRequestContext,
 } from "aws-lambda";
-
-aws.config.update({ region: "us-east-1" });
-const dynamoDb = new aws.DynamoDB.DocumentClient();
-const tableName = process.env.TABLE_NAME ? process.env.TABLE_NAME : "";
+import CustomDynamoClient from "../utils/dynamodb";
 
 let response;
 
@@ -35,16 +31,13 @@ export const lambdaHandler = async (
   };
 
   try {
-    const data = await dynamoDb
-      .scan({
-        TableName: tableName,
-      })
-      .promise();
+    const client = new CustomDynamoClient();
+    const data = await client.readAll();
 
     response = {
       headers: headers,
       statusCode: 200,
-      body: JSON.stringify(data.Items),
+      body: JSON.stringify(data),
     };
   } catch (error) {
     console.log(error);

@@ -1,14 +1,9 @@
 import "source-map-support/register";
-import * as aws from "aws-sdk";
 import {
   APIGatewayProxyEvent,
   APIGatewayEventRequestContext,
 } from "aws-lambda";
-import { v4 as uuidv4 } from "uuid";
-
-aws.config.update({ region: "us-east-1" });
-const dynamoDb = new aws.DynamoDB.DocumentClient();
-const tableName = process.env.TABLE_NAME ? process.env.TABLE_NAME : "";
+import CustomDynamoClient from "../utils/dynamodb";
 
 let response;
 
@@ -36,22 +31,16 @@ export const lambdaHandler = async (
   };
 
   try {
-    const userId = uuidv4();
     const { firstName, lastName, email } = JSON.parse(event.body as string);
 
     const item = {
-      userId: userId,
       firstName: firstName,
       lastName: lastName,
       email: email,
     };
 
-    const data = await dynamoDb
-      .put({
-        TableName: tableName,
-        Item: item,
-      })
-      .promise();
+    const client = new CustomDynamoClient();
+    const data = await client.create(item);
 
     response = {
       headers: headers,

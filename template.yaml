@@ -35,7 +35,7 @@ Resources:
     Type: AWS::Serverless::SimpleTable
     Properties:
       PrimaryKey:
-        Name: userId
+        Name: id
         Type: String
       ProvisionedThroughput:
         ReadCapacityUnits: 1
