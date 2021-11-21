@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "User CRUD",
         "Welcome Endpoint",
-        "Code using typescript"
+        "Code using typescript",
+        "CI/CD"
     ]
 }

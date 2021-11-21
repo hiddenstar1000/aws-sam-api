@@ -32,10 +32,11 @@ Resources:
 
   WelcomeFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
     Properties:
       Timeout: 3
-      CodeUri: dist/welcome/
-      Handler: app.lambdaHandler
+      Handler: dist/welcome/app.lambdaHandler
       Events:
         Welcome:
           Type: Api
@@ -45,9 +46,10 @@ Resources:
 
   CreateUserFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
     Properties:
-      CodeUri: dist/user/
-      Handler: create-user.lambdaHandler
+      Handler: dist/user/create-user.lambdaHandler
       Policies: AmazonDynamoDBFullAccess
       Events:
         CreateUser:
@@ -58,9 +60,10 @@ Resources:
 
   GetUserFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
     Properties:
-      CodeUri: dist/user/
-      Handler: get-user.lambdaHandler
+      Handler: dist/user/get-user.lambdaHandler
       Policies: AmazonDynamoDBReadOnlyAccess
       Events:
         GetUser:
@@ -71,9 +74,10 @@ Resources:
 
   GetUsersFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
     Properties:
-      CodeUri: dist/user/
-      Handler: get-users.lambdaHandler
+      Handler: dist/user/get-users.lambdaHandler
       Policies: AmazonDynamoDBReadOnlyAccess
       Events:
         GetUsers:
@@ -84,9 +88,10 @@ Resources:
 
   UpdateUserFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
     Properties:
-      CodeUri: dist/user/
-      Handler: update-user.lambdaHandler
+      Handler: dist/user/update-user.lambdaHandler
       Policies: AmazonDynamoDBFullAccess
       Events:
         UpdateUser:
@@ -97,9 +102,10 @@ Resources:
 
   DeleteUserFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
     Properties:
-      CodeUri: dist/user/
-      Handler: delete-user.lambdaHandler
+      Handler: dist/user/delete-user.lambdaHandler
       Policies: AmazonDynamoDBFullAccess
       Events:
         DeleteUser:
