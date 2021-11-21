@@ -136,7 +136,6 @@ Reference Repo: https://github.com/Envek/aws-sam-typescript-layers-example
 
 ## Deploy
 
-sam build
-sam deploy
+sam build && sam deploy
 
 (For the first time sam deploy --guided)
