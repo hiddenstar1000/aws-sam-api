@@ -3,7 +3,7 @@ import {
   APIGatewayProxyEvent,
   APIGatewayEventRequestContext,
 } from "aws-lambda";
-import CustomDynamoClient from "../utils/dynamodb";
+import CustomMongoClient from "../utils/mongodb";
 
 let response;
 
@@ -31,8 +31,8 @@ export const lambdaHandler = async (
   };
 
   try {
-    const client = new CustomDynamoClient();
-    const data = await client.readAll();
+    const client = new CustomMongoClient();
+    const data = await client.readAll("user");
 
     response = {
       headers: headers,

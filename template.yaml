@@ -10,7 +10,7 @@ Globals:
     Runtime: nodejs14.x
     Environment:
       Variables:
-        TABLE_NAME: !Ref Table
+        MONGODB_URI: "mongodb+srv://dixon:dixon123@dev.c9ug1.mongodb.net/dev-db"
     Architectures:
       - x86_64
     Layers:
@@ -20,16 +20,6 @@ Globals:
       - !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:464622532012:layer:Datadog-Node14-x:48"
 
 Resources:
-  Table:
-    Type: AWS::Serverless::SimpleTable
-    Properties:
-      PrimaryKey:
-        Name: id
-        Type: String
-      ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
-
   WelcomeFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Metadata:
@@ -50,7 +40,6 @@ Resources:
       BuildMethod: makefile
     Properties:
       Handler: dist/user/create-user.lambdaHandler
-      Policies: AmazonDynamoDBFullAccess
       Events:
         CreateUser:
           Type: Api
@@ -64,7 +53,6 @@ Resources:
       BuildMethod: makefile
     Properties:
       Handler: dist/user/get-user.lambdaHandler
-      Policies: AmazonDynamoDBReadOnlyAccess
       Events:
         GetUser:
           Type: Api
@@ -78,7 +66,6 @@ Resources:
       BuildMethod: makefile
     Properties:
       Handler: dist/user/get-users.lambdaHandler
-      Policies: AmazonDynamoDBReadOnlyAccess
       Events:
         GetUsers:
           Type: Api
@@ -92,7 +79,6 @@ Resources:
       BuildMethod: makefile
     Properties:
       Handler: dist/user/update-user.lambdaHandler
-      Policies: AmazonDynamoDBFullAccess
       Events:
         UpdateUser:
           Type: Api
@@ -106,7 +92,6 @@ Resources:
       BuildMethod: makefile
     Properties:
       Handler: dist/user/delete-user.lambdaHandler
-      Policies: AmazonDynamoDBFullAccess
       Events:
         DeleteUser:
           Type: Api

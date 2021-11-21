@@ -16,6 +16,7 @@
   "homepage": "https://bitbucket.org/otebapi/oteb-sam-api#readme",
   "dependencies": {
     "aws-sdk": "^2.1033.0",
+    "mongodb": "^4.2.0",
     "source-map-support": "^0.5.20",
     "uuid": "^3.3.2"
   },
