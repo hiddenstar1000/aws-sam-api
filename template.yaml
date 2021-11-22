@@ -1,41 +1,125 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  lambda-nodejs14.x
+Description: OTEB API
 
-  Sample SAM Template for lambda-nodejs14.x
-  
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 5
+    MemorySize: 128
+    Runtime: nodejs14.x
+    Environment:
+      Variables:
+        MONGODB_URI: "mongodb+srv://dixon:dixon123@dev.c9ug1.mongodb.net/dev-db"
+    Architectures:
+      - x86_64
+    Layers:
+      # Our own layer that we are going to build
+      - !Ref RuntimeDependenciesLayer
+      # At the same time we can also reference third-party layers
+      - !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:464622532012:layer:Datadog-Node14-x:48"
 
 Resources:
-  HelloWorldFunction:
+  WelcomeFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: makefile
     Properties:
-      CodeUri: hello-world/
-      Handler: app.lambdaHandler
-      Runtime: nodejs14.x
-      Architectures:
-        - x86_64
+      Timeout: 3
+      Handler: dist/welcome/app.lambdaHandler
       Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        Welcome:
+          Type: Api
           Properties:
-            Path: /hello
+            Path: /
             Method: get
+
+  CreateUserFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/user/create-user.lambdaHandler
+      Events:
+        CreateUser:
+          Type: Api
+          Properties:
+            Path: /user
+            Method: post
+
+  GetUserFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/user/get-user.lambdaHandler
+      Events:
+        GetUser:
+          Type: Api
+          Properties:
+            Path: /user/{id}
+            Method: get
+
+  GetUsersFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/user/get-users.lambdaHandler
+      Events:
+        GetUsers:
+          Type: Api
+          Properties:
+            Path: /user
+            Method: get
+
+  UpdateUserFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/user/update-user.lambdaHandler
+      Events:
+        UpdateUser:
+          Type: Api
+          Properties:
+            Path: /user/{id}
+            Method: put
+
+  DeleteUserFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Handler: dist/user/delete-user.lambdaHandler
+      Events:
+        DeleteUser:
+          Type: Api
+          Properties:
+            Path: /user/{id}
+            Method: delete
+
+  RuntimeDependenciesLayer:
+    Type: AWS::Serverless::LayerVersion
+    Metadata:
+      BuildMethod: makefile # This does the trick
+    Properties:
+      Description: Runtime dependencies for Lambdas
+      ContentUri: ./
+      CompatibleRuntimes:
+        - nodejs14.x
+      RetentionPolicy: Retain
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  WelcomeApi:
+    Description: "API Gateway endpoint URL for Prod stage for Welcome Function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  WelcomeFunction:
+    Description: "Welcome Lambda Function ARN"
+    Value: !GetAtt WelcomeFunction.Arn
+  WelcomeFunctionIamRole:
+    Description: "Implicit IAM Role created for Welcome Function"
+    Value: !GetAtt WelcomeFunctionRole.Arn
