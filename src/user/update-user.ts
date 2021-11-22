@@ -40,7 +40,6 @@ export const lambdaHandler = async (
       const { firstName, lastName, email } = JSON.parse(event.body as string);
 
       const item = {
-        id: id,
         firstName: firstName,
         lastName: lastName,
         email: email,

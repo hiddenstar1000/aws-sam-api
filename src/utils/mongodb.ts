@@ -31,7 +31,7 @@ export default class CustomMongoClient {
 
   async readAll(collectionName: string) {
     const connection = await clientPromise;
-    return await connection.db().collection(collectionName).find({});
+    return await connection.db().collection(collectionName).find({}).toArray();
   }
 
   async update(collectionName: string, item: any, id: any) {
@@ -39,7 +39,7 @@ export default class CustomMongoClient {
     return await connection
       .db()
       .collection(collectionName)
-      .updateOne({ _id: id }, item);
+      .updateOne({ _id: id }, { $set: item });
   }
 
   async delete(collectionName: string, id: any) {
